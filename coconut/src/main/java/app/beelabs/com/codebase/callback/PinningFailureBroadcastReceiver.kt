@@ -7,7 +7,6 @@ import com.datatheorem.android.trustkit.reporting.BackgroundReporter
 import com.datatheorem.android.trustkit.reporting.PinningFailureReport
 
 
-
 internal class PinningFailureReportBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent) {
         val report = intent.getSerializableExtra(BackgroundReporter.EXTRA_REPORT) as PinningFailureReport

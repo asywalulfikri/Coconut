@@ -2,6 +2,11 @@ package app.beelabs.com.codebase.base;
 
 import android.content.ComponentCallbacks2;
 import android.content.Context;
+//import android.support.design.widget.Snackbar;
+//import android.support.v4.app.Fragment;
+//import android.support.v4.app.FragmentManager;
+//import android.support.v4.app.FragmentTransaction;
+//import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -22,6 +27,8 @@ import app.beelabs.com.codebase.di.IProgress;
 import app.beelabs.com.codebase.di.component.AppComponent;
 import retrofit2.Call;
 import retrofit2.Response;
+//import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.calligraphy3.*;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 
@@ -55,6 +62,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Componen
             Log.e("", e.getMessage());
         }
 
+    }
+
+    public void setToast(String message){
+        Toast.makeText(this,message,Toast.LENGTH_LONG).show();
     }
 
     protected Snackbar showSnackbar(View view, String message, int duration) {

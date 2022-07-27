@@ -91,6 +91,7 @@ public class BaseManager {
                                          Interceptor[] appInterceptor,
                                          Interceptor[] netInterceptor) {
 
+//        final OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         final OkHttpClient.Builder httpClient =
                 new OkHttpClient.Builder()
                         .sslSocketFactory(OkHttp3Helper.getSSLSocketFactory(), OkHttp3Helper.getTrustManager())
