@@ -17,11 +17,11 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled true
+            minifyEnabled false
         }
     }
     compileOptions {
@@ -67,9 +67,9 @@ dependencies {
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId = 'coconut'
+            groupId = 'com.github.asywalulfikri'
             artifactId = "$project.name"
-            version = "0.0.6"
+            version = "0.0.9"
 
             pom {
                 description = 'Coconut http lib'
