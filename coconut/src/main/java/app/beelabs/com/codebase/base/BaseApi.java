@@ -1,6 +1,8 @@
 package app.beelabs.com.codebase.base;
 
 
+import android.content.Context;
+
 import app.beelabs.com.codebase.di.IApi;
 import app.beelabs.com.codebase.di.component.AppComponent;
 import okhttp3.Interceptor;
@@ -68,6 +70,10 @@ public class BaseApi {
         return setupApi(appComponent, clazz, allowUntrusted, timeout, enableLoggingHttp, (String) null);
     }
 
+    public Object setupApi(AppComponent appComponent, Context context, Class clazz, boolean allowUntrusted, int timeout, boolean enableLoggingHttp, Interceptor interceptor) {
+        return setupApi(appComponent,context, clazz, allowUntrusted, timeout, enableLoggingHttp, (String) null,interceptor);
+    }
+
     public Object setupApi(AppComponent appComponent, Class clazz, boolean allowUntrusted, int timeout, boolean enableLoggingHttp, Interceptor interceptor) {
         return setupApi(appComponent, clazz, allowUntrusted, timeout, enableLoggingHttp, null, interceptor);
     }
@@ -82,9 +88,15 @@ public class BaseApi {
         return api.initApiService(getApiDomain(), allowUntrusted, clazz, timeout, enableLoggingHttp, PedePublicKeyRSA);
     }
 
+
     public Object setupApi(AppComponent appComponent, Class clazz, boolean allowUntrusted, int timeout, boolean enableLoggingHttp, String PedePublicKeyRSA, Interceptor interceptor) {
         IApi api = appComponent.getApi();
         return api.initApiService(getApiDomain(), allowUntrusted, clazz, timeout, enableLoggingHttp, PedePublicKeyRSA, interceptor);
+    }
+
+    public Object setupApi(AppComponent appComponent,Context context, Class clazz, boolean allowUntrusted, int timeout, boolean enableLoggingHttp, String PedePublicKeyRSA, Interceptor interceptor) {
+        IApi api = appComponent.getApi();
+        return api.initApiService(context,getApiDomain(), allowUntrusted, clazz, timeout, enableLoggingHttp, PedePublicKeyRSA, interceptor);
     }
 
     public Object setupApi(AppComponent appComponent, Class clazz, boolean allowUntrusted, int timeout, boolean enableLoggingHttp, String PedePublicKeyRSA, Interceptor[] appInterceptor, Interceptor[] netInterceptor) {

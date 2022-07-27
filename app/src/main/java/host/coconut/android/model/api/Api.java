@@ -10,6 +10,7 @@ import host.coconut.android.model.api.request.PhoneRequestModel;
 import host.coconut.android.model.api.response.ArticleResponse;
 import host.coconut.android.model.api.response.LoginResponseModel;
 import host.coconut.android.model.api.response.SourceResponse;
+import okhttp3.Interceptor;
 import retrofit2.Callback;
 
 
@@ -20,7 +21,7 @@ public class Api extends BaseApi {
 
     synchronized private static ApiService initApiDomain(Context context) {
         getInstance().setApiDomain(IConfig.API_BASE_URL);
-        return (ApiService) getInstance().setupApi(App.getAppComponent(), ApiService.class, true, app.beelabs.com.codebase.IConfig.TIMEOUT_SHORT_INSECOND, true);
+        return (ApiService) getInstance().setupApi(App.getAppComponent(),context, ApiService.class, true, app.beelabs.com.codebase.IConfig.TIMEOUT_SHORT_INSECOND, true, null);
     }
 
     synchronized private static ApiService initApiDomainSFA2(Context context) {
@@ -32,7 +33,9 @@ public class Api extends BaseApi {
     synchronized private static ApiService initApiDomain3(Context context) {
         getInstance().setApiDomain("https://indoalliz-prod.apigee.net/ottosg/api/");
 
-        return (ApiService) getInstance().setupApi(App.getAppComponent(), ApiService.class, true, 120, true, IConfig.PUBLIC_KEY_RSA);
+       // return (ApiService) getInstance().setupApi(App.getAppComponent(), ApiService.class, true, 120, true, IConfig.PUBLIC_KEY_RSA);
+        return (ApiService) getInstance().setupApi(App.getAppComponent(),context, ApiService.class, true, app.beelabs.com.codebase.IConfig.TIMEOUT_SHORT_INSECOND, true, null);
+
     }
 
 

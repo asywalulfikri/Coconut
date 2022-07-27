@@ -1,7 +1,10 @@
+/*
 package app.beelabs.com.codebase.base;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.chuckerteam.chucker.api.ChuckerInterceptor;
 import com.datatheorem.android.trustkit.pinning.OkHttp3Helper;
 
 import java.security.KeyManagementException;
@@ -24,9 +27,11 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
+*/
 /**
  * Created by arysuryawan on 11/10/17.
- */
+ *//*
+
 
 public class BaseManager {
 
@@ -81,6 +86,20 @@ public class BaseManager {
         interceptors[0] = appInterceptor;
 
         return getHttpClient(allowUntrustedSSL, timeout, enableLoggingHttp, PedePublicKeyRSA, interceptors, null);
+
+    }
+
+
+    protected OkHttpClient getHttpClient(Context context,boolean allowUntrustedSSL,
+                                         int timeout,
+                                         boolean enableLoggingHttp,
+                                         final String PedePublicKeyRSA,
+                                         Interceptor appInterceptor) {
+
+        Interceptor[] interceptors = new Interceptor[1];
+        interceptors[0] = appInterceptor;
+
+        return getHttpClient(context,allowUntrustedSSL, timeout, enableLoggingHttp, PedePublicKeyRSA, interceptors, null);
 
     }
 
@@ -242,4 +261,72 @@ public class BaseManager {
         httpClient.hostnameVerifier(hostnameVerifier);
 
     }
+
+
+    protected OkHttpClient getHttpClient(Context context,boolean allowUntrustedSSL,
+                                         int timeout,
+                                         boolean enableLoggingHttp,
+                                         final String PedePublicKeyRSA,
+                                         Interceptor[] appInterceptor,
+                                         Interceptor[] netInterceptor) {
+
+
+
+        final OkHttpClient.Builder httpClient =
+                new OkHttpClient.Builder()
+                        .sslSocketFactory(OkHttp3Helper.getSSLSocketFactory(), OkHttp3Helper.getTrustManager())
+                        .addInterceptor(OkHttp3Helper.getPinningInterceptor())
+                        .followRedirects(false)
+                        .followSslRedirects(false);
+
+        if (allowUntrustedSSL) {
+            allowUntrustedSSL(httpClient);
+            try {
+                TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+                trustManagerFactory.init((KeyStore) null);
+                TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
+                if (trustManagers.length != 1 || !(trustManagers[0] instanceof X509TrustManager)) {
+                    throw new IllegalStateException("Unexpected default trust managers:" + java.util.Arrays.toString(trustManagers));
+                }
+                X509TrustManager trustManager = (X509TrustManager) trustManagers[0];
+                SSLContext sc = SSLContext.getInstance("TLSv1.2");
+                sc.init(null, new TrustManager[]{trustManager}, null);
+                httpClient.sslSocketFactory(new TLS12SocketFactory(sc.getSocketFactory()));
+            } catch (NoSuchAlgorithmException | KeyManagementException | IllegalStateException | KeyStoreException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        httpClient.connectTimeout(timeout, TimeUnit.SECONDS);
+        httpClient.readTimeout(timeout, TimeUnit.SECONDS);
+        httpClient.writeTimeout(timeout, TimeUnit.SECONDS);
+
+        // interceptor RSA for body encryption
+        httpClient.addInterceptor(new RequestInterceptor(PedePublicKeyRSA));
+
+        // interceptor logging HTTP request
+        if (enableLoggingHttp) {
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+            httpClient.addInterceptor(logging);
+        }
+
+        if (appInterceptor != null) {
+            for (Interceptor interceptor : appInterceptor) {
+                httpClient.addInterceptor(interceptor);
+            }
+        }
+
+        if (netInterceptor != null) {
+            for (Interceptor interceptor : netInterceptor) {
+                httpClient.addNetworkInterceptor(interceptor);
+            }
+        }
+
+        return httpClient.build();
+    }
+
 }
+*/

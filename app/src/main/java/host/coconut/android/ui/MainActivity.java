@@ -43,14 +43,14 @@ public class MainActivity extends BaseActivity {
             setToast("ada");
         }
 
-        /*showApiProgressDialog(App.getAppComponent(), new ResourceDao(this) {
+        showApiProgressDialog(App.getAppComponent(), new ResourceDao(this) {
             @Override
             public void call() {
                 this.postPhoneNumber2(
                         new PhoneRequestModel("081212341212"), MainActivity.this, Objects.requireNonNull(BaseDao.getInstance(MainActivity.this, IConfig.KEY_CALLER_API_SOURCE)).callback);
             }
         }, "Loading", false);
-*/
+
 
 
        /* showApiProgressDialog(App.getAppComponent(), new ResourceDao(this) {
