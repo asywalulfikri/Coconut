@@ -2,6 +2,8 @@ package app.beelabs.com.codebase.base;
 
 import android.app.Application;
 
+import androidx.multidex.MultiDex;
+
 import com.datatheorem.android.trustkit.TrustKit;
 
 import app.beelabs.com.codebase.di.component.AppComponent;
@@ -26,6 +28,7 @@ public class BaseApp extends Application {
     }
 
     protected static void setupBuilder(DaggerAppComponent.Builder builder, Application app) {
+
         component = builder.appModule(new AppModule(app))
                 .apiServiceModule(new ApiServiceModule(app))
                 .build();

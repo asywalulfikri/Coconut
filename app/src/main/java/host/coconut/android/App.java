@@ -2,6 +2,8 @@ package host.coconut.android;
 
 import android.content.Context;
 
+import androidx.multidex.MultiDex;
+
 import app.beelabs.com.codebase.base.BaseApp;
 import app.beelabs.com.codebase.di.component.AppComponent;
 import app.beelabs.com.codebase.di.component.DaggerAppComponent;
@@ -17,6 +19,7 @@ public class App extends BaseApp {
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
+        MultiDex.install(this);
         setupBuilder(DaggerAppComponent.builder(), this);
        // setupDefaultFont("fonts/SF-Pro-Display-Black.otf");
     }
